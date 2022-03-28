@@ -1,0 +1,27 @@
+{
+  "name": "todos_system",
+  "version": "1.0.0",
+  "description": "u4c4evaluation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pranjalbhaskar-27/U4C4.git"
+  },
+  "author": "Pranjal fw15_376",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pranjalbhaskar-27/U4C4/issues"
+  },
+  "homepage": "https://github.com/pranjalbhaskar-27/U4C4#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.8",
+    "nodemon": "^2.0.15"
+  }
+}
