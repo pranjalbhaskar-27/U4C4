@@ -3,37 +3,45 @@ const User = require("../models/user.model")
 var jwt = require('jsonwebtoken');
 
 
+const generateToken = (user) => {
+    return jwt.sign({user},process.env.Secret_Key)
+}
 
-const register=async(req,res)=>{
+const register = async (req, res) => {
     try {
-        let user=await findOne({email:req.body.email})
-        if(user){
-            return res.send({message:"Email already exists"})
-        }
-        user=await User.create(req.body)
-        var token = jwt.sign({ user }, 'abhishek')
-        return res.send({user,token})
+        let user = await User.findOne({ email: req.body.email }).lean().exec();
 
+        if (user) {
+            return res.send("Email already exists");
+        }
+        user = await User.create(req.body);
+
+        const token = generateToken(user);
+        return res.send({user,token})
     } catch (error) {
-        res.send({message:error.message})
+        return res.send(error.message)
     }
 }
 
-const login=async(req,res)=>{
+const login = async (req, res) => {
     try {
-        const user=await User.findOne({email:req.body.email})
-        if(!user){
-            return res.send("wrong email or password")
+        const user = await User.findOne({ email: req.body.email })
+        
+        if (!user)
+        {
+            return res.send("Wrong Email or Password")            
         }
-        const match=user.checkPassword(req.body.password)
-        if(!match){
-            return res.send("wrong email or password")
-        }
-        var token = jwt.sign({ user }, 'abhishek')
+        
+        const match = user.checkPassword(req.body.password)
+
+        if (!match) return res.send("Wrong Email or Password"); 
+        
+        const token = generateToken(user)
         return res.send({user,token})
+
     } catch (error) {
-        return res.send({message:error.message})
+        return res.send(error.message)
     }
 }
 
-module.exports={register,login}
+module.exports = {register,login,generateToken}
